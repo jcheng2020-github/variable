@@ -32,5 +32,10 @@ int main(int argc, char* argv[])
         //printf("f'_x = %.2f, f'_y = %.2f\n\n",(*f->locGrad)(f, x),(*f->locGrad)(f, y));
     }
     
+    (*x->deconstructor)(x);
+    (*y->deconstructor)(y);
+    (*z->deconstructor)(z);
+    (*f->deconstructor)(f);
+    
     return 0;
 }
