@@ -22,7 +22,6 @@ struct FloatVar
     bool syn;
     
     float val;
-    float grad;
     bool leaf;
     
     struct FloatVar *x;
@@ -100,7 +99,11 @@ void FloatVar_setVal( struct FloatVar *this, float val)
 
 float FloatVar_locGrad (struct FloatVar * this, struct FloatVar *par)
 {
-    if( this->leaf == true)
+    if( par == this )
+    {
+        return 1.0;
+    }
+    if( this->func == &FloatVar_leaf)
     {
         if( par == this )
         {
@@ -111,34 +114,28 @@ float FloatVar_locGrad (struct FloatVar * this, struct FloatVar *par)
             return 0.0;
         }
     }
-    if( this->leaf != true)
+    if( this->func == &FloatVar_add)
     {
-        if( this->func == &FloatVar_add)
+        return (*this->x->locGrad)(this->x, par) 
+        + (*this->y->locGrad)(this->y, par);
+    }
+    if( this->func == &FloatVar_mul)
+    {
+        return (*this->x->locGrad)(this->x, par) * this->y->val
+        + this->x->val * (*this->y->locGrad)(this->y, par);
+    }
+    if( this->func == &FloatVar_relu)
+    {
+        if(this->x->val >= 0)
         {
-            this->grad = (*this->x->locGrad)(this->x, par) 
-            + (*this->y->locGrad)(this->y, par);
-            return this->grad;
+            return 1.0 * this->x->locGrad(this->x, par);
         }
-        if( this->func == &FloatVar_mul)
+        if(this->x->val < 0)
         {
-            this->grad = (*this->x->locGrad)(this->x, par) * this->y->val
-            + this->x->val * (*this->y->locGrad)(this->y, par);
-            return this->grad;
-        }
-        if( this->func == &FloatVar_relu)
-        {
-            if(this->x->val >= 0)
-            {
-                this->grad = 1.0 * this->x->locGrad(this->x, par);
-                return this->grad;
-            }
-            if(this->x->val < 0)
-            {
-                this->grad = 0.0 * this->x->locGrad(this->x, par);
-                return this->grad;
-            }
+            return 0.0 * this->x->locGrad(this->x, par);
         }
     }
+    
     printf("Error: from FloatVar_locGrad\n");
     return 0;
 }
