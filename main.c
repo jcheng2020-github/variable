@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
     printf("Hello variables:\n");
     struct FloatVar *x, *y, *z, *f;
-    float lr = 0.001, xStep, yStep;
+    float lr = 0.001, x_i, y_i, f_i, xStep, yStep;
     x = FloatVar_constructor(x);
     y = FloatVar_constructor(y);
     z = FloatVar_constructor(z);
@@ -23,11 +23,14 @@ int main(int argc, char* argv[])
     
     for(int i = 0; i < 1000; i ++)
     {
+        x_i = (*x->func)(x);
+        y_i = (*y->func)(y);
+        f_i = (*f->func)(f);
         xStep =  -(*f->locGrad)(f, x) * lr;
         yStep =  -(*f->locGrad)(f, y) * lr;
         //printf("xStep = %.2f, yStep = %.2f\n\n", xStep, yStep);
-        (*x->setVal)( x, x->val + xStep);
-        (*y->setVal)( y, y->val + yStep);
+        (*x->setVal)( x, x_i + xStep);
+        (*y->setVal)( y, y_i + yStep);
         printf("x = %.2f, y = %.2f, f = %.2f\n",(*x->func)(x),(*y->func)(y),(*f->func)(f));
         //printf("f'_x = %.2f, f'_y = %.2f\n\n",(*f->locGrad)(f, x),(*f->locGrad)(f, y));
     }
