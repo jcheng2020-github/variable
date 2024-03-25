@@ -29,7 +29,7 @@ struct FloatVar
     struct FloatVar *y;   
 };
 
-void FloatVar_constructor(struct FloatVar *this);
+struct FloatVar FloatVar_constructor(struct FloatVar *this);
 void FloatVar_deconstructor(struct FloatVar *this);
 void FloatVar_setupLeaf( struct FloatVar * this);
 void FloatVar_setupInter1( struct FloatVar *this,  float (*func)( struct FloatVar *), struct FloatVar *x);
@@ -41,7 +41,7 @@ float FloatVar_mul(struct FloatVar *this);
 float FloatVar_relu(struct FloatVar *this);
 float FloatVar_leaf(struct FloatVar *this);
 
-void FloatVar_constructor(struct FloatVar *this)
+struct FloatVar FloatVar_constructor(struct FloatVar *this)
 {
     this = (struct FloatVar *)malloc(sizeof(struct FloatVar));
     this->setupLeaf = &FloatVar_setupLeaf;
@@ -53,6 +53,7 @@ void FloatVar_constructor(struct FloatVar *this)
     this->locGrad = &FloatVar_locGrad;
     
     this->syn = false;
+    return this;
 }
 
 void FloatVar_deconstructor(struct FloatVar *this)
