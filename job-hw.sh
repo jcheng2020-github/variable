@@ -9,4 +9,4 @@
 #SBATCH -t 00:05:00
 #SBATCH -o outfile
 #SBATCH -e errfile
-srun --mpi=pmix_v3 ./adam.out
+srun --mpi=pmix_v3 ./adam.out 500000

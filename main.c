@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
     
     float beta1 = 1-1e-1, beta2 = 1-1e-3, lambda = 0;
     bool amsgrad = false, maximize = false;
+    int iteraiton = atof(argv[1]);
     
     x = FloatVar_constructor();
     y = FloatVar_constructor();
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
     printf("x = %.2f, y = %.2f, f = %.2f\n",(*x->func)(x),(*y->func)(y),(*f->func)(f));
     //printf("f'_x = %.2f, f'_y = %.2f\n\n",(*f->locGrad)(f, x),(*f->locGrad)(f, y));
     
-    adam(x,y,f,lr,x_i,y_i, 500000,
+    adam(x,y,f,lr,x_i,y_i, iteraiton,
     beta1 , beta2, lambda, amsgrad , maximize);
     
     (*x->deconstructor)(x);
