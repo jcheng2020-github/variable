@@ -89,17 +89,17 @@ float beta1,float beta2,float lambda,bool amsgrad,bool maximize)
         m_x = beta1 * m_x + ( 1 - beta1 ) * x_grad;
         m_y = beta1 * m_y + ( 1 - beta1 ) * y_grad;
         
-        printf("m_x = %.4f, m_y = %.4f\n\n", m_x, m_y);
+        //printf("m_x = %.4f, m_y = %.4f\n\n", m_x, m_y);
         
         v_x = beta2 * v_x + ( 1 - beta2 ) * x_grad * x_grad;
         v_y = beta2 * v_y + ( 1 - beta2 ) * y_grad * y_grad;
         
-        printf("v_x = %.4f, v_y = %.4f\n\n", v_x, v_y);
+        //printf("v_x = %.4f, v_y = %.4f\n\n", v_x, v_y);
         
         m_x_cov = m_x / ( 1 - pow(beta1,i));
         m_y_cov = m_y / ( 1 - pow(beta1,i));
         
-        printf("m_x_cov = %.4f, m_y_cov = %.4f\n\n", m_x_cov, m_y_cov);
+        //printf("m_x_cov = %.4f, m_y_cov = %.4f\n\n", m_x_cov, m_y_cov);
         
         v_x_cov = v_x / ( 1 - pow(beta2,i));
         v_y_cov = v_y / ( 1 - pow(beta2,i));
@@ -124,7 +124,7 @@ float beta1,float beta2,float lambda,bool amsgrad,bool maximize)
         }
         
 
-        printf("xStep = %.4f, yStep = %.4f\n\n", xStep, yStep);
+        //printf("xStep = %.4f, yStep = %.4f\n\n", xStep, yStep);
         
         
         
